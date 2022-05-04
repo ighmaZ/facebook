@@ -1,29 +1,9 @@
-// https://api.giphy.com/v1/gifs/trending
-// // YU1jLda0kXiH1OMw8cppdeKEisdq9pg1
-
-// import React from "react";
-
-// function Gif(props) {
-//   return (
-//     <div>
-//       <img src={props.src} alt="" />
-//     </div>
-//   );
-// }
-
-// export default Gif;
 
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
-
-function hi (){
-    console.log("hey");
-
-}
-const Giphy = () => {
+const Giphy = ({ onGifClick, close }) => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
   const [isError, setIsError] = useState(false);
@@ -34,13 +14,9 @@ const Giphy = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
- 
-  
-
   useEffect(() => {
     const fetchData = async () => {
       setIsError(false);
-   
 
       try {
         const results = await axios("https://api.giphy.com/v1/gifs/trending", {
@@ -56,8 +32,6 @@ const Giphy = () => {
         setIsError(true);
         setTimeout(() => setIsError(false), 4000);
       }
-
-     
     };
 
     fetchData();
@@ -65,9 +39,17 @@ const Giphy = () => {
 
   const renderGifs = () => {
     return currentItems.map((el) => {
+      const src = el.images.fixed_height.url;
       return (
         <div key={el.id} className="gif">
-          <img onClick={hi}src={el.images.fixed_height.url} />
+          <img
+            onClick={() => {
+              onGifClick(src);
+              close();
+            }}
+            src={src}
+            alt=""
+          />
         </div>
       );
     });
@@ -85,16 +67,16 @@ const Giphy = () => {
     }
   };
 
-  const handleSearchChange =event => {
+  const handleSearchChange = (event) => {
     setSearch(event.target.value);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsError(false);
 
     try {
-      const results = await axios("https://4api.giphy.com/v1/gifs/search", {
+      const results = await axios("https://api.giphy.com/v1/gifs/search", {
         params: {
           api_key: "YU1jLda0kXiH1OMw8cppdeKEisdq9pg1",
           q: search,
@@ -106,7 +88,6 @@ const Giphy = () => {
       setIsError(true);
       setTimeout(() => setIsError(false), 4000);
     }
-
   };
 
   const pageSelected = (pageNumber) => {

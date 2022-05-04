@@ -20,11 +20,20 @@ function CreateArea(props) {
     });
   }
 
+  function handleGifClick(gifSrc) {
+    setContent((prevContent) => {
+      return {
+        ...prevContent,
+        gif: gifSrc
+      };
+    });
+  }
+
   function submitNote(event) {
     props.onAdd(note);
     setContent({
       content: "",
-      gif:""
+      gif: ""
     });
     event.preventDefault();
   }
@@ -40,10 +49,15 @@ function CreateArea(props) {
           placeholder="Whats on your mind?"
           rows="3"
         />
+        {note.gif && (
+          <div>
+            <img src={note.gif} alt="" />
+          </div>
+        )}
         <Popover>
           <Popover.Button className="b-1">Gif</Popover.Button>
           <Popover.Panel className="popover">
-            <Gif src="https://media.giphy.com/media/duzpaTbCUy9Vu/giphy.gif" />
+            {({ close }) => <Gif close={close} onGifClick={handleGifClick} />}
           </Popover.Panel>
         </Popover>
         <button className="b-2" onClick={submitNote}>

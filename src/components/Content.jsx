@@ -7,8 +7,10 @@ function Content(props) {
 
   return (
     <div className="content">
-
       <p>{props.content}</p>
+      <div>
+        <img src={props.content.gif} alt="" />
+      </div>
       <button onClick={handleClick}>DELETE</button>
     </div>
   );
