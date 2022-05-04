@@ -32,14 +32,16 @@ function App() {
           <Content
             key={index}
             id={index}
-            title={contentItem.title}
             content={contentItem.content}
+            gif={contentItem.gif}
+
             onDelete={deleteContent}
           />
         );
       })}
       <Modal/>
       {/* <Gif src="https://media.giphy.com/media/duzpaTbCUy9Vu/giphy.gif"/> */}
+     
     </div>
   );
 }
